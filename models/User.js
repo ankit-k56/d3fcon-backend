@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   roll: { type: String, unique: true },
   tryhackmeId: { type: String },
+  passwod: { type: String },
   year: { type: String, required: true },
   rate: { type: String, required: true },
 });
