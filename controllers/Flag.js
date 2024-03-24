@@ -1,24 +1,56 @@
-const User = require("../models/User");
+require("dotenv").config();
+const Player = require("../models/Player");
 const submitFlag = async (req, res) => {
   try {
     const { flag } = req.body;
     const { id } = req.user;
-    const user = await User.findBtId(id);
-    if (!user) {
+    const player = await Player.findBtId(id);
+    if (!player) {
       return res.status(404).json({ message: "User not found" });
     }
-    switch (flag) {
-      case "flag1":
-        user.flag1 = true;
+    switch (player.level) {
+      // Checking the level of the player
+      case 1:
+        if (flag === process.env.FLAG1) {
+          // Checking if all the questions of current level are done
+          if (player.currentQuest != 4) {
+            return res.status(400).json({
+              message:
+                "Do all the questions of current level to prceed to next level",
+            });
+          }
+          // Updating the level of the player
+          await Player.updateOne({ _id: id }, { level: 2 });
+        } else {
+          return res.status(400).json({ message: "Invalid flag" });
+        }
         break;
-      case "flag2":
-        user.flag2 = true;
+      case 2:
+        if (flag === process.env.FLAG2) {
+          if (player.currentQuest != 7) {
+            return res.status(400).json({
+              message:
+                "Do all the questions of current level to prceed to next level",
+            });
+          }
+          await Player.updateOne({ _id: id }, { level: 3 });
+        } else {
+          return res.status(400).json({ message: "Invalid flag" });
+        }
         break;
-      case "flag3":
-        user.flag3 = true;
+      case 3:
+        if (flag === process.env.FLAG3) {
+          if (player.currentQuest != 10) {
+            return res.status(400).json({
+              message:
+                "Do all the questions of current level to prceed to next level",
+            });
+          }
+          await Player.updateOne({ _id: id }, { level: 4 });
+        } else {
+          return res.status(400).json({ message: "Invalid flag" });
+        }
         break;
-      default:
-        return res.status(400).json({ message: "Invalid flag" });
     }
   } catch (err) {
     console.log(err);
