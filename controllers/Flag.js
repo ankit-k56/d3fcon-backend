@@ -4,7 +4,7 @@ const submitFlag = async (req, res) => {
   try {
     const { flag } = req.body;
     const { id } = req.user;
-    const player = await Player.findBtId(id);
+    const player = await Player.findById(id);
     if (!player) {
       return res.status(404).json({ message: "User not found" });
     }
