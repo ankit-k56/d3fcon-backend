@@ -3,12 +3,17 @@ require("dotenv").config();
 const cors = require("cors");
 const connectDb = require("./db/connect");
 const User = require("./models/User");
+const authRouter = require("./routes/authRouter");
+const submitRouter = require("./routes/submitRouter");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 // TEST ROUTES
+
+app.use("/auth", authRouter);
+app.use("/submit/", submitRouter);
 app.get("/", async (req, res) => {
   try {
     const users = await User.find({});
