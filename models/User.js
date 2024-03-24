@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
-  userName: { type: String },
-  currentQuest: { type: Number },
-  score: { type: Number },
-  level: { type: Number },
   name: { type: String },
   email: { type: String, required: true, unique: true },
   phone: { type: String, required: true },
