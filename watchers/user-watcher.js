@@ -5,6 +5,7 @@ const startPlayerWatcher = async (socketIO) => {
   Player.watch().on("change", async () => {
     try {
       topPlayers = await getLeaderBoard();
+      global.leaderboardData = topPlayers;
       socketIO.emit("change", topPlayers);
     } catch (error) {
       console.error(error);

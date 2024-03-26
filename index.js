@@ -8,6 +8,7 @@ const submitRouter = require("./routes/submitRouter");
 const http = require("http");
 const { startPlayerWatcher } = require("./watchers/user-watcher");
 const { startSocketIO } = require("./sockets/socketio");
+const { getLeaderBoard } = require("./controllers/leader-board");
 
 const PORT = 3000 || process.env.PORT;
 const app = express();
@@ -44,6 +45,7 @@ const server = async () => {
   try {
     await connectDb(process.env.DATABASE_URL);
     const io = startSocketIO(serverHttp);
+    global.leaderboardData = await getLeaderBoard();
     await startPlayerWatcher(io);
 
     serverHttp.listen(PORT, () => {

@@ -9,8 +9,7 @@ const startSocketIO = (httpServer) => {
   });
 
   io.on("connection", async (socket) => {
-    const player = await getLeaderBoard();
-    socket.emit("change", player);
+    socket.emit("change", global.leaderboardData);
     socket.on("disconnect", () => {
       console.log("A user disconnected");
     });
