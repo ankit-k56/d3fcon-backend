@@ -2,8 +2,9 @@ require("dotenv").config();
 const Player = require("../models/Player");
 const submitFlag = async (req, res) => {
   try {
-    const { flag, id } = req.body;
-    // const { id } = req.player;
+    const { flag } = req.body;
+    const { id } = req.player;
+    console.log(id);
     const player = await Player.findById(id);
     if (!player) {
       return res.status(404).json({ message: "User not found" });

@@ -35,11 +35,15 @@ const setUserName = async (req, res) => {
       user: user._id,
     });
 
-    const token = jwt.sign({ username: Player.userName }, process.env.SECRET, {
-      expiresIn: "30d",
-    });
+    const token = jwt.sign(
+      { id: Player._id, userName: Player.userName },
+      process.env.SECRET,
+      {
+        expiresIn: "30d",
+      }
+    );
 
-    res.status(200).json({ token });
+    res.status(200).json({ userName: player.userName, token });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal Server Error" });
@@ -57,12 +61,15 @@ const login = async (req, res) => {
       res.status(400).json({ message: "Password Incorrect" });
       return;
     }
+    const token = jwt.sign(
+      { id: player._id, userName: player.userName },
+      process.env.SECRET,
+      {
+        expiresIn: "30d",
+      }
+    );
 
-    const token = jwt.sign({ username: Player.userName }, process.env.SECRET, {
-      expiresIn: "30d",
-    });
-
-    res.status(200).json({ player, token });
+    res.status(200).json({ userName: player.userName, token });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal Server Error" });

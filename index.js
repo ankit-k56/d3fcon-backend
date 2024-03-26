@@ -6,6 +6,8 @@ const User = require("./models/User");
 const authRouter = require("./routes/authRouter");
 const submitRouter = require("./routes/submitRouter");
 
+const authenticate = require("./middlewares/authenticate");
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -13,7 +15,7 @@ app.use(express.json());
 // TEST ROUTES
 
 app.use("/auth", authRouter);
-app.use("/submit/", submitRouter);
+app.use("/submit/", authenticate, submitRouter);
 app.get("/", async (req, res) => {
   try {
     const users = await User.find({});
