@@ -5,8 +5,14 @@ const connectDb = require("./db/connect");
 const User = require("./models/User");
 const authRouter = require("./routes/authRouter");
 const submitRouter = require("./routes/submitRouter");
+const http = require("http");
+const { startPlayerWatcher } = require("./watchers/user-watcher");
+const { startSocketIO } = require("./sockets/socketio");
+const { getLeaderBoard } = require("./controllers/leader-board");
 
+const PORT = 3000 || process.env.PORT;
 const app = express();
+const serverHttp = http.createServer(app);
 app.use(cors());
 app.use(express.json());
 
@@ -38,9 +44,12 @@ app.post("/", async (req, res) => {
 const server = async () => {
   try {
     await connectDb(process.env.DATABASE_URL);
+    const io = startSocketIO(serverHttp);
+    global.leaderboardData = await getLeaderBoard();
+    await startPlayerWatcher(io);
 
-    app.listen(3030, () => {
-      console.log("Server is running on port 3000");
+    serverHttp.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
     console.error(error);
