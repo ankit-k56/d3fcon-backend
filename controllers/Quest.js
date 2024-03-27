@@ -14,14 +14,13 @@ const submitQuest = async (req, res) => {
 
     const question = await Question.findOne({ questionNo: currentQuest });
     if (!question) {
-      throw new Error("Question not found");
+      return res.status(404).json({ message: "Question not found" });
     }
 
     const correctAnswer = question.answer;
 
     if (answer !== correctAnswer) {
-      res.status(400).json({ message: "Incorrect Answer" });
-      return;
+      return res.status(400).json({ message: "Incorrect Answer" });
     }
 
     updatedQuestion = await Question.findByIdAndUpdate(
@@ -33,15 +32,24 @@ const submitQuest = async (req, res) => {
     );
 
     const playerIndex = updatedQuestion.submittedBy.length;
+    let newScore = 0;
+    let score = player.score;
     if (playerIndex < 10) {
-      let score = 1000 - playerIndex * 20;
-      await Player.updateOne({ _id: id }, { score: score });
+      newScore = 1000 - playerIndex * 20;
+      await Player.updateOne({ _id: id }, { $inc: { score: newScore } });
     } else {
-      let score = 820 - playerIndex * 2;
-      await Player.updateOne({ _id: id }, { score: score });
+      newScore = 820 - playerIndex * 2;
+      await Player.updateOne({ _id: id }, { $inc: { score: newScore } });
     }
 
-    await Player.updateOne({ _id: id }, { currentQuest: currentQuest + 1 });
+    await Player.updateOne(
+      { _id: id },
+      { currentQuest: currentQuest + 1 },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json({ message: "Correct Answer", score: score + newScore });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal Server Error" });

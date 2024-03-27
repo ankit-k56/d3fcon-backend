@@ -3,24 +3,29 @@ require("dotenv").config();
 const cors = require("cors");
 const connectDb = require("./db/connect");
 const User = require("./models/User");
+const Question = require("./models/Question");
 const authRouter = require("./routes/authRouter");
 const submitRouter = require("./routes/submitRouter");
 const http = require("http");
+const cookieParser = require("cookie-parser");
 const { startPlayerWatcher } = require("./watchers/user-watcher");
 const { startSocketIO } = require("./sockets/socketio");
 const { getLeaderBoard } = require("./controllers/leader-board");
-const authenticate = require("./middleware/authenticate");
+const authenticate = require("./middlewares/authenticate");
 
 const PORT = 3000 || process.env.PORT;
 const app = express();
 const serverHttp = http.createServer(app);
 app.use(cors());
 app.use(express.json());
-
-// TEST ROUTES
+app.use(cookieParser());
 
 app.use("/auth", authRouter);
 app.use("/submit/", authenticate, submitRouter);
+
+// Development Endpoints
+
+//Get all users
 app.get("/", async (req, res) => {
   try {
     const users = await User.find({});
@@ -31,11 +36,24 @@ app.get("/", async (req, res) => {
   }
 });
 
+//Create a user
 app.post("/", async (req, res) => {
   try {
     const user = await User.create(req.body);
 
     res.status(201).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Endpoint to push Question
+app.post("/question", async (req, res) => {
+  try {
+    const question = await Question.create(req.body);
+
+    res.status(201).json(question);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal server error" });

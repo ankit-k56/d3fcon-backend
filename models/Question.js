@@ -6,4 +6,4 @@ const questionSchema = new mongoose.Schema({
   answer: { type: String, required: [true, "Answer is required"] },
 });
 
-module.exports = mongoose.model("Question", questionSchema);
+module.exports = mongoose.model("Question", questionSchema, "Question");

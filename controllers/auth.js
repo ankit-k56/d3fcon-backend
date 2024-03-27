@@ -28,6 +28,10 @@ const setUserName = async (req, res) => {
       res.status(400).json({ message: "Username already set" });
       return;
     }
+    const existingPlayer = await Player.findOne({ userName: username });
+    if (existingPlayer) {
+      return res.status(400).json({ message: "Username already exists" });
+    }
 
     const player = await Player.create({
       userName: username,
@@ -42,11 +46,11 @@ const setUserName = async (req, res) => {
         expiresIn: "30d",
       }
     );
-
-    res.status(200).json({ userName: player.userName, token });
+    res.cookie("jwtToken", token, { httpOnly: true });
+    return res.status(200).json({ userName: player.userName, token });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 const login = async (req, res) => {
@@ -68,13 +72,12 @@ const login = async (req, res) => {
         expiresIn: "30d",
       }
     );
-
-    res.status(200).json({ userName: player.userName, token });
+    res.cookie("jwtToken", token, { httpOnly: true });
+    return res.status(200).json({ userName: player.userName });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 module.exports = { setUserName, login };
-//login function if auth correct then login success
