@@ -9,7 +9,7 @@ const http = require("http");
 const { startPlayerWatcher } = require("./watchers/user-watcher");
 const { startSocketIO } = require("./sockets/socketio");
 const { getLeaderBoard } = require("./controllers/leader-board");
-const authenticate = require("./middleware/authenticate");
+const authenticate = require("./middlewares/authenticate");
 
 const PORT = 3000 || process.env.PORT;
 const app = express();
