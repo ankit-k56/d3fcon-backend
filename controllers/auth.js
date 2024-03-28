@@ -47,7 +47,13 @@ const setUserName = async (req, res) => {
       }
     );
     res.cookie("jwtToken", token, { httpOnly: true });
-    return res.status(200).json({ userName: player.userName, token });
+    return res
+      .status(200)
+      .json({
+        userName: player.userName,
+        level: player.level,
+        currentQuestion: player.currentQuest,
+      });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -73,7 +79,11 @@ const login = async (req, res) => {
       }
     );
     res.cookie("jwtToken", token, { httpOnly: true });
-    return res.status(200).json({ userName: player.userName });
+    return res.status(200).json({
+      userName: player.userName,
+      level: player.level,
+      currentQuestion: player.currentQuest,
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal Server Error" });
