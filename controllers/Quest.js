@@ -17,14 +17,15 @@ const submitQuest = async (req, res) => {
       return res.status(404).json({ message: "Question not found" });
     }
 
-    if (question.submittedBy.includes(id)) {
-      return res.status(400).json({ message: "Already Submitted" });
-    }
     if (
-      currentQuest + 1 > player.level * 3 ||
-      currentQuest + 1 < (player.level - 1) * 3
+      currentQuest > player.level * 3 ||
+      currentQuest <= (player.level - 1) * 3
     ) {
       return res.status(400).json({ message: "Level Up First" });
+    }
+
+    if (question.submittedBy.includes(id)) {
+      return res.status(400).json({ message: "Already Submitted" });
     }
 
     const correctAnswer = question.answer;
