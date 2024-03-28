@@ -3,6 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const connectDb = require("./db/connect");
 const User = require("./models/User");
+const Player = require("./models/Player");
 const Question = require("./models/Question");
 const authRouter = require("./routes/authRouter");
 const submitRouter = require("./routes/submitRouter");
@@ -26,6 +27,20 @@ app.use("/submit/", authenticate, submitRouter);
 // Development Endpoints
 
 //Get all users
+app.get("/player", authenticate, async (req, res) => {
+  try {
+    const { id } = req.player;
+    const player = await Player.findById(id);
+
+    res.status(200).json({
+      userName: player.userName,
+      level: player.level,
+      currentQuestion: player.currentQuest,
+    });
+  } catch {
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 app.get("/", async (req, res) => {
   try {
     const users = await User.find({});
