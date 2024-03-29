@@ -21,7 +21,7 @@ const submitFlag = async (req, res) => {
             });
           }
           // Updating the level of the player
-          await Player.updateOne({ _id: id }, { level: 2 });
+          await Player.updateOne({ _id: id }, { level: 2, isStorySeen: false });
           res.status(200).json({ message: "Level 2 unlocked" });
         } else {
           return res.status(400).json({ message: "Invalid flag" });
@@ -35,7 +35,7 @@ const submitFlag = async (req, res) => {
                 "Do all the questions of current level to prceed to next level",
             });
           }
-          await Player.updateOne({ _id: id }, { level: 3 });
+          await Player.updateOne({ _id: id }, { level: 3, isStorySeen: false });
           res.status(200).json({ message: "Level 3 unlocked" });
         } else {
           return res.status(400).json({ message: "Invalid flag" });
@@ -49,7 +49,7 @@ const submitFlag = async (req, res) => {
                 "Do all the questions of current level to prceed to next level",
             });
           }
-          await Player.updateOne({ _id: id }, { level: 4 });
+          await Player.updateOne({ _id: id }, { level: 4, isStorySeen: false });
           res.status(200).json({ message: "Level 4 unlocked" });
         } else {
           return res.status(400).json({ message: "Invalid flag" });

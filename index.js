@@ -31,11 +31,18 @@ app.get("/player", authenticate, async (req, res) => {
   try {
     const { id } = req.player;
     const player = await Player.findById(id);
+    if (!player) {
+      return res.status(404).json({ message: "Player not found" });
+    }
 
     res.status(200).json({
-      userName: player.userName,
-      level: player.level,
-      currentQuestion: player.currentQuest,
+      player: {
+        userName: player.userName,
+        level: player.level,
+        currentQuestion: player.currentQuest,
+        isStorySeen: player.isStorySeen,
+        score: player.score,
+      },
     });
   } catch {
     res.status(500).json({ message: "Internal server error" });
@@ -69,6 +76,21 @@ app.post("/question", async (req, res) => {
     const question = await Question.create(req.body);
 
     res.status(201).json(question);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+//seenStatus
+app.post("/seenstatus", authenticate, async (req, res) => {
+  try {
+    const { id } = req.player;
+    const player = await Player.updateOne({ _id: id }, { isStorySeen: true });
+    if (!player) {
+      return res.status(404).json({ message: "Player not found" });
+    }
+    res.status(200).json({ message: "Story seen status updated" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal server error" });
