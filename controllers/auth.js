@@ -48,13 +48,12 @@ const setUserName = async (req, res) => {
     );
     res.cookie("jwtToken", token);
     return res.status(200).json({
-      player: {
-        userName: player.userName,
-        level: player.level,
-        currentQuestion: player.currentQuest,
-        isStorySeen: player.isStorySeen,
-        score: player.score,
-      },
+      userName: player.userName,
+      level: player.level,
+      currentQuestion: player.currentQuest,
+      isStorySeen: player.isStorySeen,
+      score: player.score,
+
       token: token,
     });
   } catch (err) {
@@ -83,13 +82,12 @@ const login = async (req, res) => {
     );
     res.cookie("jwtToken", token);
     return res.status(200).json({
-      player: {
-        userName: player.userName,
-        level: player.level,
-        currentQuestion: player.currentQuest,
-        isStorySeen: player.isStorySeen,
-        score: player.score,
-      },
+      userName: player.userName,
+      level: player.level,
+      currentQuestion: player.currentQuest,
+      isStorySeen: player.isStorySeen,
+      score: player.score,
+
       token: token,
     });
   } catch (err) {

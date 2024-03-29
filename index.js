@@ -36,13 +36,11 @@ app.get("/player", authenticate, async (req, res) => {
     }
 
     res.status(200).json({
-      player: {
-        userName: player.userName,
-        level: player.level,
-        currentQuestion: player.currentQuest,
-        isStorySeen: player.isStorySeen,
-        score: player.score,
-      },
+      userName: player.userName,
+      level: player.level,
+      currentQuestion: player.currentQuest,
+      isStorySeen: player.isStorySeen,
+      score: player.score,
     });
   } catch {
     res.status(500).json({ message: "Internal server error" });
