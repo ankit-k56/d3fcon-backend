@@ -14,7 +14,7 @@ const { startSocketIO } = require("./sockets/socketio");
 const { getLeaderBoard } = require("./controllers/leader-board");
 const authenticate = require("./middlewares/authenticate");
 
-const PORT = 3000 || process.env.PORT;
+const PORT = 3001 || process.env.PORT;
 const app = express();
 const serverHttp = http.createServer(app);
 app.use(cors());
