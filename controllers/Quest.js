@@ -11,6 +11,9 @@ const submitQuest = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     const currentQuest = player.currentQuest;
+    if (currentQuest >= 13) {
+      return res.status(400).json({ message: "Game Over" });
+    }
 
     const question = await Question.findOne({ questionNo: currentQuest });
     if (!question) {
@@ -24,7 +27,9 @@ const submitQuest = async (req, res) => {
       return res.status(400).json({ message: "Level Up First" });
     }
 
-    if (question.submittedBy.includes(id)) {
+    if (
+      question.submittedBy.some((submission) => submission.player.equals(id))
+    ) {
       return res.status(400).json({ message: "Already Submitted" });
     }
 
@@ -36,7 +41,7 @@ const submitQuest = async (req, res) => {
 
     updatedQuestion = await Question.findByIdAndUpdate(
       question._id,
-      { $push: { submittedBy: id } },
+      { $push: { submittedBy: { player: id } } },
       { new: true }
 
       // push the id to submittedBy array

@@ -54,6 +54,8 @@ const submitFlag = async (req, res) => {
         } else {
           return res.status(400).json({ message: "Invalid flag" });
         }
+      case 4:
+        res.status(400).json({ message: "Game Over" });
         break;
     }
   } catch (err) {

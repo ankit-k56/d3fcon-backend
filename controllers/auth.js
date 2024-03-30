@@ -80,7 +80,7 @@ const login = async (req, res) => {
         expiresIn: "30d",
       }
     );
-    res.cookie("jwtToken", token);
+    // res.cookie("jwtToken", token);
     return res.status(200).json({
       userName: player.userName,
       level: player.level,

@@ -95,6 +95,18 @@ app.post("/seenstatus", authenticate, async (req, res) => {
   }
 });
 
+app.post("/update", async (req, res) => {
+  try {
+    const users = await User.find({});
+    users.forEach(async (user) => {
+      await User.updateOne({ _id: user._id }, { isEventAttended: false });
+    });
+    res.status(200).json({ message: "Updated" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 const server = async () => {
   try {
     await connectDb(process.env.DATABASE_URL);

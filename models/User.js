@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   year: { type: String, required: true },
   rate: { type: String, required: true },
+  isEventAttended: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("User", userSchema, "User");
