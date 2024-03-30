@@ -22,7 +22,7 @@ const submitFlag = async (req, res) => {
           }
           // Updating the level of the player
           await Player.updateOne({ _id: id }, { level: 2, isStorySeen: false });
-          res.status(200).json({ message: "Level 2 unlocked" });
+          res.status(200).json({ flag: player.level ,message: "Level 2 unlocked" });
         } else {
           return res.status(400).json({ message: "Invalid flag" });
         }
@@ -36,7 +36,7 @@ const submitFlag = async (req, res) => {
             });
           }
           await Player.updateOne({ _id: id }, { level: 3, isStorySeen: false });
-          res.status(200).json({ message: "Level 3 unlocked" });
+          res.status(200).json({flag: player.level , message: "Level 3 unlocked" });
         } else {
           return res.status(400).json({ message: "Invalid flag" });
         }
@@ -50,7 +50,7 @@ const submitFlag = async (req, res) => {
             });
           }
           await Player.updateOne({ _id: id }, { level: 4, isStorySeen: false });
-          res.status(200).json({ message: "Level 4 unlocked" });
+          res.status(200).json({flag: player.level , message: "Level 4 unlocked" });
         } else {
           return res.status(400).json({ message: "Invalid flag" });
         }

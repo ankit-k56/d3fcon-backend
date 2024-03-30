@@ -9,7 +9,7 @@ const startSocketIO = (httpServer) => {
   });
 
   io.on("connection", async (socket) => {
-    socket.emit("change", global.leaderboardData);
+    socket.emit("change", { data: global.leaderboardData });
     socket.on("disconnect", () => {
       console.log("A user disconnected");
     });

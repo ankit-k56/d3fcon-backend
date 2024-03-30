@@ -65,7 +65,7 @@ const submitQuest = async (req, res) => {
     );
     return res
       .status(200)
-      .json({ message: "Correct Answer", score: score + newScore });
+      .json({ message: "Correct Answer", score: score + newScore, currentQuestion: currentQuest + 1 });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal Server Error" });
