@@ -1,4 +1,6 @@
 require("dotenv").config();
+const crypto = require("crypto");
+
 const Player = require("../models/Player");
 const submitFlag = async (req, res) => {
   try {
@@ -61,7 +63,11 @@ const submitFlag = async (req, res) => {
           return res.status(400).json({ message: "Invalid flag" });
         }
       case 4:
-        if (flag === process.env.FLAG4) {
+        const name = player.userName;
+
+        const hash = crypto.createHash("sha1").update(name).digest("hex");
+
+        if (flag === hash) {
           if (player.currentQuest != 13) {
             return res.status(400).json({
               message:
@@ -69,13 +75,15 @@ const submitFlag = async (req, res) => {
             });
           }
           await Player.updateOne({ _id: id }, { level: 5, isStorySeen: false });
-          res.status(200).json({ flag: player.level, message: "You won" });
+          return res
+            .status(200)
+            .json({ flag: player.level, message: "You won" });
         } else {
           return res.status(400).json({ message: "Invalid flag" });
         }
 
       case 5:
-        res.status(200).json({ message: "You already won" });
+        return res.status(200).json({ message: "You already won" });
 
       default:
         return res.status(400).json({ message: "Invalid flag" });
