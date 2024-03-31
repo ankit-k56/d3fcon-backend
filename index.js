@@ -48,9 +48,10 @@ app.get("/player", authenticate, async (req, res) => {
 });
 app.get("/", async (req, res) => {
   try {
-    const users = await User.find({});
-    console.log(users);
-    res.status(200).json(users);
+    // const users = await User.find({});
+    // console.log(users);
+    // res.status(200).json(users);
+    res.status(200).json({ message: "working" });
   } catch {
     res.status(500).json({ message: "Internal server error" });
   }
