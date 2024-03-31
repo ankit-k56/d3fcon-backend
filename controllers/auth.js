@@ -23,11 +23,11 @@ const setUserName = async (req, res) => {
       return;
     }
 
-    const alreadyExists = await Player.findOne({ user: user._id });
-    if (alreadyExists) {
-      res.status(400).json({ message: "Username already set" });
-      return;
-    }
+    // const alreadyExists = await Player.findOne({ user: user._id });
+    // if (alreadyExists) {
+    //   res.status(400).json({ message: "Username already set" });
+    //   return;
+    // }
     const existingPlayer = await Player.findOne({ userName: username });
     if (existingPlayer) {
       return res.status(400).json({ message: "Username already exists" });
