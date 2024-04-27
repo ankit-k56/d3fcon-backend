@@ -10,12 +10,7 @@ const submitQuest = async (req, res) => {
     if (!player) {
       return res.status(404).json({ message: "User not found" });
     }
-    if (
-      player.userName === "Arnav_Subudhi" ||
-      player.userName === "greenwizz"
-    ) {
-      return res.status(200).json({ message: "Successfull" });
-    }
+
     const currentQuest = player.currentQuest;
     if (currentQuest >= 13) {
       return res.status(400).json({ message: "Game Over" });
